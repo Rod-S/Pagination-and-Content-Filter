@@ -28,22 +28,21 @@ const appendPageLinks = (studentList) => {
 
   //click event handler to select specified link as input for showPage()
   $('a').on('click', function(event) {
-
     //show studentList associated with clicked pageLink
     showPage(event.target.text, $('li'));
-
-    //set class for currently selected anchor link to 'active'
-    $(event.delegateTarget).removeClass('active').addClass('active');
-
+    //event.target.className = 'active';
+    $('a').addClass('active');
+    console.log('event.target.text is:', event.target.text);
+    console.log('event.target is:', event.target);
+    console.log('event.target.parentNode is:', event.target.parentNode);
+    console.log('event.target.parentNode.parentNode is:', event.target.parentNode.parentNode);
+    console.log('event.target.className is:', event.target.className);
     //remove the old page link section from the site to avoid pageLink multiplication
     $pageLinkSection.remove();
-
     //append the new page link section to the site
     appendPageLinks($('li'));
-
   });
 };
-
 
 //call showPage(); page 1 display by default loads on website load
 showPage(1,$('li'));
