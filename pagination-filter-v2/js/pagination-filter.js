@@ -43,7 +43,7 @@ const appendPageLinks = (studentList) => {
 
   });
 };
-s
+
 
 //call showPage(); page 1 display by default loads on website load
 showPage(1,$('li'));
