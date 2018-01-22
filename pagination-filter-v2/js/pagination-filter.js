@@ -30,8 +30,8 @@ const appendPageLinks = (studentList) => {
   $('a').on('click', function(event) {
     //show studentList associated with clicked pageLink
     showPage(event.target.text, $('li'));
-    //event.target.className = 'active';
-    $('a').addClass('active');
+    event.target.className = 'active';
+    //$('a').addClass('active');
     console.log('event.target.text is:', event.target.text);
     console.log('event.target is:', event.target);
     console.log('event.target.parentNode is:', event.target.parentNode);
