@@ -12,6 +12,7 @@ const appendPageLinks = (studentList) => {
   const totalPages = Math.ceil(studentList.length/10);
   //create a div for page links
   const $pageLinkSection = $('<div class="pagination"><ul class="pagination-ul">');
+  //append $pageLinkSection to DOM
   $('.page').append($pageLinkSection);
   //for every page of 10 students (or less)
   for (i=1;i<=totalPages;i++){
@@ -19,12 +20,9 @@ const appendPageLinks = (studentList) => {
     pageLink = '<li> <a href="#">';
     pageLink += [i];
     pageLink += '</a></li>';
-    //append as many consecutive pageLinks needed based on totalPages calculation above
+    //append pageLinks needed based on totalPages calculation above to DOM
     $('ul.pagination-ul').append(pageLink);
   };
-  //append newly created page link section to the site
-
-
   //click event handler to select specified link as input for showPage()
   $('a').on('click', function(event) {
     //show studentList associated with clicked pageLink
@@ -35,10 +33,9 @@ const appendPageLinks = (studentList) => {
     event.target.className = 'active';
   });
 };
-
 //call showPage(); page 1 display by default loads on website load
 showPage(1,$('li.student-item'));
 //call appendPageLinks
 appendPageLinks($('li.student-item'));
-//active class called on default page 1
+//active class called on page load default link 1
 $('a').get(0).className = 'active';
