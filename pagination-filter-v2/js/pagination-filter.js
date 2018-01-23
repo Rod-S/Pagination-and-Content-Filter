@@ -33,9 +33,26 @@ const appendPageLinks = (studentList) => {
     event.target.className = 'active';
   });
 };
-//call showPage(); page 1 display by default loads on website load
+
+//creation of search bar and student search functionality
+function searchList() {
+  $('div.page-header').append('<div class="student-search"><input placeholder="Search for students..."><button>Search</button>');
+  const $searchValue = $('.student-search input').val()
+  const $studentNameList = '';
+  const $studentEmailList = '';
+  const $matchedStudent = '';
+  //$pageLinkSection.remove();
+  /*for (i=1;i<=studentList.length;i++){
+
+  } */
+};
+
+
+//call showPage(); page 1 display by default-loads on website load
 showPage(1,$('li.student-item'));
 //call appendPageLinks
 appendPageLinks($('li.student-item'));
-//active class called on page load default link 1
+//active class called on page load's default link 1
 $('a').get(0).className = 'active';
+//call searchList()
+searchList();
