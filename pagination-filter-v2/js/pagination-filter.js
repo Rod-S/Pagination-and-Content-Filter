@@ -17,9 +17,7 @@ const appendPageLinks = (studentList) => {
   //for every page of 10 students (or less)
   for (i=1;i<=totalPages;i++){
     //concatenation of pageLink strings to loop through [i] correctly
-    pageLink = '<li> <a href="#">';
-    pageLink += [i];
-    pageLink += '</a></li>';
+    pageLink = '<li> <a href="#">' + [i] + '</a></li>';
     //append pageLinks needed based on totalPages calculation above to DOM
     $('ul.pagination-ul').append(pageLink);
   };
@@ -35,18 +33,16 @@ const appendPageLinks = (studentList) => {
 };
 
 //creation of search bar and student search functionality
-function searchList() {
-  $('div.page-header').append('<div class="student-search"><input placeholder="Search for students..."><button>Search</button>');
-  const $searchValue = $('.student-search input').val()
-  const $studentNameList = '';
-  const $studentEmailList = '';
-  const $matchedStudent = '';
-  //$pageLinkSection.remove();
-  /*for (i=1;i<=studentList.length;i++){
-
-  } */
+function searchList(list) {
+  $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button>Search</button>');
+  $('#search').on('change', function() {
+    let searchFilter = $(this).val();
+    if (searchFilter) {
+      $(list).find("h3:contains(" + searchFilter + ")").parent().parent().show();
+      $(list).find("h3:not(:contains(" + searchFilter + "))").parent().parent().hide();
+    }
+  })
 };
-
 
 //call showPage(); page 1 display by default-loads on website load
 showPage(1,$('li.student-item'));
@@ -55,4 +51,4 @@ appendPageLinks($('li.student-item'));
 //active class called on page load's default link 1
 $('a').get(0).className = 'active';
 //call searchList()
-searchList();
+searchList($('li.student-item'));
