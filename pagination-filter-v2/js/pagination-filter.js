@@ -45,13 +45,19 @@ function searchList(studentList) {
   $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button>Search</button>');
   $('#search').on('change', function() {
     let searchFilter = $(this).val().toUpperCase();
-    if (searchFilter) {
+    if (searchFilter != '') {
       $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
-      $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
-      $(studentList).find("span.email:Contains(" + searchFilter + ")").parent().parent().show();
+      $(studentList).find(".email:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find("span.email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
+      $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
+    } else if (searchFilter = '') {
+      showPage(1,$('li.student-item'));
+    } else {
+      alert('Please enter a name or email address.');
     }
-  });
+  }).keyup( function () {
+    $(this).change();
+  })
 };
 
 //call showPage(); page 1 display by default-loads on website load
