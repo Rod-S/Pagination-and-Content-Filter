@@ -32,16 +32,26 @@ const appendPageLinks = (studentList) => {
   });
 };
 
+//custom jQuery selector ':Contains' to remove case-sensitivity of searchList()'s .find()
+$(function ($) {
+  $.expr[':'].Contains = function(object, index, meta) {
+    return (object.innerText).toUpperCase()
+    .indexOf( meta[3].toUpperCase() )>=0;
+  }
+});
+
 //creation of search bar and student search functionality
-function searchList(list) {
+function searchList(studentList) {
   $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button>Search</button>');
   $('#search').on('change', function() {
-    let searchFilter = $(this).val();
+    let searchFilter = $(this).val().toUpperCase();
     if (searchFilter) {
-      $(list).find("h3:contains(" + searchFilter + ")").parent().parent().show();
-      $(list).find("h3:not(:contains(" + searchFilter + "))").parent().parent().hide();
+      $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
+      $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
+      $(studentList).find("span.email:Contains(" + searchFilter + ")").parent().parent().show();
+      $(studentList).find("span.email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
     }
-  })
+  });
 };
 
 //call showPage(); page 1 display by default-loads on website load
