@@ -24,6 +24,7 @@ const appendPageLinks = (studentList) => {
   };
   //click event handler to select specified link as input for showPage()
   $('a').on('click', function(event) {
+    $('#noStudent').remove('#noStudent');
     //show studentList associated with clicked pageLink
     showPage(event.target.text, $('li.student-item'));
     //remove active class on previously clicked on link
@@ -33,7 +34,7 @@ const appendPageLinks = (studentList) => {
   });
 };
 
-//custom jQuery selector ':Contains' to remove case-sensitivity of searchList()'s .find()
+//custom jQuery selector ':Contains' to remove DOM case-sensitivity of searchList()'s .find()
 $(function ($) {
   $.expr[':'].Contains = function(object, index, meta) {
     return (object.innerText).toUpperCase()
@@ -45,16 +46,20 @@ $(function ($) {
 function searchList(studentList) {
   $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button id=searchButton>Search</button>');
   $('#searchButton').on('click', function() {
+    $('#noStudent').remove('#noStudent');
     let searchFilter = $(this).prev().val().toUpperCase();
     if (searchFilter != '') {
       $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find(".email:Contains(" + searchFilter + ")").parent().parent().show();
-      $(studentList).find("span.email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
       $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
+      $(studentList).find("span.email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
+      $(':visible').addClass('$matched');
+      if ($('.student-item').is(':visible') == false) {
+        $('.student-list').prepend('<div id=noStudent><h2>No Students Found with Name or Email:  ' + $(this).prev().val() + '  </h2></div>');
+      }
     } else if (searchFilter == '') {
       showPage(1,$('li.student-item'));
-    } else {
-      alert('Please enter a name or email address.');
+      alert('Please enter a name or email address of the student you would like to find.');
     }
   });
 };
