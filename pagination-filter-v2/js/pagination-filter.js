@@ -1,3 +1,4 @@
+let $matchedStudents;
 //display correct list of 10 students based on page number
 const showPage = (pageNumber,studentList) => {
   //hide full list of students given by inline HTML markup
@@ -42,22 +43,20 @@ $(function ($) {
 
 //creation of search bar and student search functionality
 function searchList(studentList) {
-  $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button>Search</button>');
-  $('#search').on('change', function() {
-    let searchFilter = $(this).val().toUpperCase();
+  $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button id=searchButton>Search</button>');
+  $('#searchButton').on('click', function() {
+    let searchFilter = $(this).prev().val().toUpperCase();
     if (searchFilter != '') {
       $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find(".email:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find("span.email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
       $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
-    } else if (searchFilter = '') {
+    } else if (searchFilter == '') {
       showPage(1,$('li.student-item'));
     } else {
       alert('Please enter a name or email address.');
     }
-  }).keyup( function () {
-    $(this).change();
-  })
+  });
 };
 
 //call showPage(); page 1 display by default-loads on website load
