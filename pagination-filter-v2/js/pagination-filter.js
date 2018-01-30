@@ -1,4 +1,3 @@
-let $match;
 //display correct list of 10 students based on page number
 const showPage = (pageNumber,studentList) => {
   //hide full list of students given by inline HTML markup
@@ -24,9 +23,10 @@ const appendPageLinks = (studentList) => {
   };
   //click event handler to select specified link as argument for showPage()'s pageList parameter
   $('a').on('click', function(event) {
+    //removal of DOM message to avoid duplication during multiple failed search attempts
     $('#noStudent').remove('#noStudent');
     //show studentList associated with clicked pageLink
-    showPage(event.target.text, $('li.student-item'));
+    showPage(event.target.text, studentList);
     //remove active class on previously clicked on link
     $('a').removeClass('active');
     //add active class on newly clicked link
@@ -45,16 +45,20 @@ $(function ($) {
 //creation of search bar and student search functionality
 function searchList(studentList) {
   $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button id=searchButton>Search</button>');
-  $('#searchButton').on('click', function() {
+  $('#searchButton').on("click", function() {
+    //remove class to avoid previously matched students from appearing
     $('li').removeClass('match');
     let searchFilter = $(this).prev().val().toUpperCase();
     //conditional that takes input value and checks against h3(student name) or email class(student email)
     //then hides or shows names based on checks
     if (searchFilter != '') {
+              //removal of DOM message to avoid duplication during multiple failed search attempts
+      $('#noStudent').remove();
+      //show or hide elements that are matched to searchFilter input
       $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find(".email:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
-      $(studentList).find("span.email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
+      $(studentList).find(".email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
       //add class for matched students that are now visible
       $('.student-item:visible').addClass('match');
       //place matched students in variable
@@ -62,18 +66,23 @@ function searchList(studentList) {
       //remove previous pagination div to avoid link duplication
       $('.pagination').remove();
       //call appendPageLinks on new student list: $match
-      appendPageLinks($match);
-      //call showPage to display 1st calculated page of list: $match
-      showPage(1, $match);
-
+      if ($match.length > 10){
+        appendPageLinks($match);
+        //call showPage to display 1st calculated page of list: $match
+        showPage(1, $match);
+        $('a').get(0).className = 'active';
+      };
       //conditional for message to append to DOM if no students found
       if ($('.student-item').is(':visible') == false) {
+        //removal of DOM message to avoid duplication during multiple failed search attempts
+        $('#noStudent').remove();
         //remove class to avoid previously matched students from appearing
         $('li').removeClass('match');
         $('.student-list').prepend('<div id=noStudent><h2>No Students Found with Name or Email:  ' + $(this).prev().val() + '  </h2></div>');
       }
       //conditional for alert to run if input box is blank
     } else if (searchFilter == '') {
+      $('#noStudent').remove();
       //remove class to avoid previously matched students from appearing
       $('li').removeClass('match');
       //Call showPage and appendPageLinks to revert to original full student list
@@ -84,7 +93,7 @@ function searchList(studentList) {
   });
 };
 
-//call showPage(); page 1 display by default-loads on website load
+//call showPage(); page 1 displays by default--loads on website load
 showPage(1,$('li.student-item'));
 //call appendPageLinks
 appendPageLinks($('li.student-item'));
