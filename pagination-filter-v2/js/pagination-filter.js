@@ -1,4 +1,3 @@
-let $matchedStudents;
 //display correct list of 10 students based on page number
 const showPage = (pageNumber,studentList) => {
   //hide full list of students given by inline HTML markup
@@ -46,18 +45,32 @@ $(function ($) {
 function searchList(studentList) {
   $('div.page-header').append('<div class="student-search"><input id=search placeholder="Search for students..."><button id=searchButton>Search</button>');
   $('#searchButton').on('click', function() {
-    $('#noStudent').remove('#noStudent');
+    $('li').removeClass('match');
     let searchFilter = $(this).prev().val().toUpperCase();
+    //conditional that takes input value and checks against h3(student name) or email class(student email)
+    //then hides or shows names based on checks
     if (searchFilter != '') {
       $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find(".email:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
       $(studentList).find("span.email:not(:Contains(" + searchFilter +"))").parent().parent().hide();
-      $(':visible').addClass('$matched');
+      //add class for matched students that are now visible
+      $('.student-item:visible').addClass('match');
+      //place matched students in variable
+      $match = $('.match');
+      //remove previous pagination div to avoid link duplication
+      $('.pagination').remove();
+      appendPageLinks($match);
+      showPage(1, $match);
+
+      //conditional for message to append to DOM if no students found
       if ($('.student-item').is(':visible') == false) {
+        $('li').removeClass('match');
         $('.student-list').prepend('<div id=noStudent><h2>No Students Found with Name or Email:  ' + $(this).prev().val() + '  </h2></div>');
       }
+      //conditional for alert to run if input box is blank
     } else if (searchFilter == '') {
+      $('li').removeClass('match');
       showPage(1,$('li.student-item'));
       alert('Please enter a name or email address of the student you would like to find.');
     }
