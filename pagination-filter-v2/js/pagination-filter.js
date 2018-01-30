@@ -1,3 +1,4 @@
+let $match;
 //display correct list of 10 students based on page number
 const showPage = (pageNumber,studentList) => {
   //hide full list of students given by inline HTML markup
@@ -21,9 +22,9 @@ const appendPageLinks = (studentList) => {
     //append pageLinks needed based on totalPages calculation above to DOM
     $('ul.pagination-ul').append(pageLink);
   };
-  //click event handler to select specified link as input for showPage()
+  //click event handler to select specified link as argument for showPage()'s pageList parameter
   $('a').on('click', function(event) {
-    $('#noStudent').remove('#noStudent');
+    
     //show studentList associated with clicked pageLink
     showPage(event.target.text, $('li.student-item'));
     //remove active class on previously clicked on link
@@ -60,18 +61,24 @@ function searchList(studentList) {
       $match = $('.match');
       //remove previous pagination div to avoid link duplication
       $('.pagination').remove();
+      //call appendPageLinks on new student list: $match
       appendPageLinks($match);
+      //call showPage to display 1st calculated page of list: $match
       showPage(1, $match);
 
       //conditional for message to append to DOM if no students found
       if ($('.student-item').is(':visible') == false) {
+        //remove class to avoid previously matched students from appearing
         $('li').removeClass('match');
         $('.student-list').prepend('<div id=noStudent><h2>No Students Found with Name or Email:  ' + $(this).prev().val() + '  </h2></div>');
       }
       //conditional for alert to run if input box is blank
     } else if (searchFilter == '') {
+      //remove class to avoid previously matched students from appearing
       $('li').removeClass('match');
+      //Call showPage and appendPageLinks to revert to original full student list
       showPage(1,$('li.student-item'));
+      appendPageLinks($('li.student-item'));
       alert('Please enter a name or email address of the student you would like to find.');
     }
   });
