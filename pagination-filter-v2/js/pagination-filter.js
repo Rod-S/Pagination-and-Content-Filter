@@ -24,7 +24,7 @@ const appendPageLinks = (studentList) => {
   };
   //click event handler to select specified link as argument for showPage()'s pageList parameter
   $('a').on('click', function(event) {
-    
+    $('#noStudent').remove('#noStudent');
     //show studentList associated with clicked pageLink
     showPage(event.target.text, $('li.student-item'));
     //remove active class on previously clicked on link
