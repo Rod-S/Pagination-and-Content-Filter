@@ -1,4 +1,4 @@
-//custom jQuery selector ':Contains' to remove DOM case-sensitivity
+//custom jQuery selector ':Contains' to force DOM to be checked in upperCase
 $(function ($) {
   $.expr[':'].Contains = function(object, index, meta) {
     return (object.innerText).toUpperCase()
@@ -6,6 +6,7 @@ $(function ($) {
   }
 });
 
+//compress starting function calls into one function
 const defaultLoad = () => {
   //call showPage(); page 1 displays by default--loads on website load
   showPage(1,$('li.student-item'));
@@ -65,8 +66,8 @@ function searchList(studentList) {
     //conditional that takes input value and checks against h3(student name) or email class(student email)
     //then hides or shows names based on checks
     if (searchFilter != '') {
-              //removal of DOM message to avoid duplication during multiple failed search attempts
-      //show or hide elements that are matched to searchFilter input
+      /*removal of DOM message to avoid duplication during multiple failed search attempts
+      show or hide elements that are matched to searchFilter input*/
       $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find(".email:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
@@ -100,7 +101,7 @@ function searchList(studentList) {
       $('.student-search').remove();
       //call defaultLoad function
       defaultLoad();
-      //empty search field message
+      //empty search field alert message
       alert('Please enter a name or email address of the student you would like to find.');
     }
   });
