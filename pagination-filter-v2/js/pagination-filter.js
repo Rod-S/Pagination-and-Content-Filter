@@ -66,8 +66,7 @@ function searchList(studentList) {
     //conditional that takes input value and checks against h3(student name) or email class(student email)
     //then hides or shows names based on checks
     if (searchFilter != '') {
-      /*removal of DOM message to avoid duplication during multiple failed search attempts
-      show or hide elements that are matched to searchFilter input*/
+      //show or hide elements that are matched to searchFilter input
       $(studentList).find("h3:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find(".email:Contains(" + searchFilter + ")").parent().parent().show();
       $(studentList).find("h3:not(:Contains(" + searchFilter + "))").parent().parent().hide();
